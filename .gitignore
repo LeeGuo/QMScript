@@ -1,0 +1,23 @@
+!*.bmp
+!*.Q
+qmc/
+source/
+plugin/
+mmt/
+lib/
+doc/
+阿榮福利味 - 免費軟體下載.url
+按鍵精靈9.url
+如何移除.txt
+uservar.ini
+qmacro.ini
+annotation.xml
+TABCTL32.OCX
+QMColorActionCtl.ocx
+QMScript/鼠標左鍵連點器.Q
+QMScript/自動定時關機.Q
+QMScript/自動喊話.Q
+QMScript/按鍵精靈自我介紹.Q
+QMScript/按鍵精靈腳本界面演示.Q
+QMScript/我的腳本2.Q
+QMScript/winmine.bmp
