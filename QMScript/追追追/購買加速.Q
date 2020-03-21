@@ -141,7 +141,7 @@ End If
 
 Rem waitForNextRunOfChecking
 For interval
-	If clickRagePower = true AND ragePowerReady() = true Then 
+	If clickRagePower = 1 AND ragePowerReady() = true Then 
 		KeyPress "`", 1
 		While ragePowerReady() = true
 			Call isGoldFever()
