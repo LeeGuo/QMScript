@@ -153,7 +153,6 @@ For interval
 		Call isGoldFever()
 		Delay 50
 	Next
-	TracePrint Plugin.GetSysInfo.GetDateTime
 	
 	If isDisconnected() = true Then 
 		Call restartGame()
@@ -373,9 +372,7 @@ Function isGoldFever
 	feverPic2 = "C:\Users\Lee\Desktop\«öÁäºëÆF\goldFeverLet2.bmp"
 	feverNotFound = false
 	FindPic 799+dx,462,1137+dx,610,feverPic1,0.7,intX,intY
-	FindPic 799+dx,462,1137+dx,610,feverPic2,0.7,intX2,intY2
-	/* intX2 = 0
-	intY2 = 0 */
+	FindPic 799+dx,462,1137+dx,610,feverPic2,0.8,intX2,intY2
 	If intX > 0 And intY > 0 Then 
 		feverPic = feverPic1
 	ElseIf intX2 > 0 And intY2 > 0 Then
@@ -387,11 +384,9 @@ Function isGoldFever
 	If feverNotFound = true Then 
 		isGoldFever = false
 	Else 
-		TracePrint "True: " & feverPic & " @ " & Plugin.GetSysInfo.GetDateTime
 		notFeverCnt = 0
 		clickCnt = 0
-		While notFeverCnt < (clickCnt + 2)
-			// FindPic 700+dx,450,1200+dx,650,feverPic,0.8,intX,intY
+		While notFeverCnt <= (clickCnt * 2) AND notFeverCnt < 10
 			FindPic 799+dx,462,1137+dx,610,feverPic,0.8,intX,intY
 			If intX > 0 And intY > 0 Then 
 				KeyPress "I", 1
