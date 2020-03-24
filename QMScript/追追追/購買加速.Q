@@ -387,9 +387,21 @@ Function clickConfirmReborn
 	FindPic 54+dx,32,1831+dx,1036,"C:\Users\Lee\Desktop\«öÁäºëÆF\confirmReborn.bmp",0.6,intX,intY
 	If intX > 0 And intY > 0 Then 
 		MoveTo intX, intY + 383
+		LeftClick 1
 		clickConfirmReborn = true
 	Else 
 		clickConfirmReborn = false
+	End If
+End Function
+
+Function isReborned
+	FindPic 994+dx,798,1139+dx,931,"C:\Users\Lee\Desktop\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½F\reborned.bmp",0.9,intX,intY
+	If intX > 0 And intY > 0 Then 
+		MoveTo 958+dx, 861
+		LeftClick 1
+		isReborned = true
+	Else 
+		isReborned = false
 	End If
 End Function
 
@@ -405,16 +417,22 @@ Function isOverLimitAndReborn
 		// check if it's still able to make appointment for reborn (means limit is not reached, yet)
 		FindPic 356+dx,789,460+dx,918,"C:\Users\Lee\Desktop\«öÁäºëÆF\canMakeRebornAppointment.bmp",0.9,intX,intY
 		If intX > 0 And intY > 0 Then 
+			KeyPress "Esc", 1 // close window
 			isOverLimitAndReborn = false
 		Else
 			While isInRebornWindow() = true
-				MoveTo 1370+dx, 847
+				//MoveTo 964+dx, 846 // normal reborn
+				MoveTo 1370+dx, 847 // double reborn
 				LeftClick 1
 				Delay 1000
 			Wend
 
 			// Reborn!
 			While clickConfirmReborn() = false
+				Delay 1000
+			Wend
+			
+			While isReborned() = false
 				Delay 1000
 			Wend
 			isOverLimitAndReborn = true
