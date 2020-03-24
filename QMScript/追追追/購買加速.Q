@@ -116,13 +116,9 @@ While isInShop() = true
 Wend
 
 Rem setAutoReborn
-If isAutoReborn() = true Then 
-	// ok, do nothing
-Else 
-	// reborned, need to re-set it
-	Call turnOnAutoReborn()
-	
+If isOverLimitAndReborn() = true Then
 	// reborned, upgrading characters for 5 minutes
+	Delay 10000
 	For 5
 		KeyDown "T", 1
 		KeyDown "R", 1
@@ -187,30 +183,6 @@ Function isLongOffline
 	Else 
 		isLongOffline = false
 	End If
-End Function
-
-Function isAutoReborn
-	If needSetAutoReborn = 0 Then 
-		isAutoReborn = true
-	Else 
-		IfColor 299+dx, 924,"ECCDB5",0 Then
-			isAutoReborn = false
-		Else 
-			isAutoReborn = true
-		End If
-	End If
-End Function
-
-Function turnOnAutoReborn
-	MoveTo 314+dx, 959
-	LeftClick 1
-	Delay 1000
-	MoveTo 547+dx, 844
-	LeftClick 1
-	Delay 1000
-	MoveTo 1147+dx, 800
-	LeftClick 1
-	Delay 2000
 End Function
 
 Function isInShop
@@ -327,9 +299,6 @@ Function gameReconnected
 		Wend
 
 		Call turnOnAutoBattle()
-		If isAutoReborn() = false Then 
-			Call turnOnAutoReborn()
-		End If
 		
 		Delay 3000
 		While shopAvailable() = false
@@ -402,5 +371,55 @@ Function isGoldFever
 			TracePrint feverPic & "! totally " & feverCnt & " times @ " & Plugin.GetSysInfo.GetDateTime
 		End If
 		isGoldFever = true
+	End If
+End Function
+
+Function isInRebornWindow
+	FindPic 1189+dx,29,1314+dx,197,"C:\Users\Lee\Desktop\«öÁäºëÆF\rebornWindow.bmp",0.9,intX,intY
+	If intX > 0 And intY > 0 Then 
+		isInRebornWindow = true
+	Else 
+		isInRebornWindow = false
+	End If
+End Function
+
+Function clickConfirmReborn
+	FindPic 54+dx,32,1831+dx,1036,"C:\Users\Lee\Desktop\«öÁäºëÆF\confirmReborn.bmp",0.6,intX,intY
+	If intX > 0 And intY > 0 Then 
+		MoveTo intX, intY + 383
+		clickConfirmReborn = true
+	Else 
+		clickConfirmReborn = false
+	End If
+End Function
+
+Function isOverLimitAndReborn
+	IfColor 282+dx,925,"ECCDB5",0 Then
+		// open reborn window
+		While isInRebornWindow() = false
+			MoveTo 306+dx, 954
+			LeftClick 1
+			Delay 1000
+		Wend
+		
+		// check if it's still able to make appointment for reborn (means limit is not reached, yet)
+		FindPic 356+dx,789,460+dx,918,"C:\Users\Lee\Desktop\«öÁäºëÆF\canMakeRebornAppointment.bmp",0.9,intX,intY
+		If intX > 0 And intY > 0 Then 
+			isOverLimitAndReborn = false
+		Else
+			While isInRebornWindow() = true
+				MoveTo 1370+dx, 847
+				LeftClick 1
+				Delay 1000
+			Wend
+
+			// Reborn!
+			While clickConfirmReborn() = false
+				Delay 1000
+			Wend
+			isOverLimitAndReborn = true
+		End If
+	Else 
+		isOverLimitAndReborn = false
 	End If
 End Function
