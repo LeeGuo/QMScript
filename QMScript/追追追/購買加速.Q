@@ -164,7 +164,7 @@ Goto waiShopAvailable
 //=============== functions ================
 
 Function shopAvailable
-	FindPic 107+dx,873,194+dx,940,"C:\Users\Lee\Desktop\«öÁäºëÆF\shopAvailable.bmp",0.9,intX,intY	
+	FindPic 107+dx,873,194+dx,940,"C:\Users\Lee\Desktop\QMC\shopAvailable.bmp",0.9,intX,intY	
 	If intX > 0 And intY > 0 Then 
 		shopAvailable = true
 	Else 
@@ -173,7 +173,7 @@ Function shopAvailable
 End Function
 
 Function isLongOffline
-	FindPic 565+dx,80,834+dx,197,"C:\Users\Lee\Desktop\«öÁäºëÆF\longOffline.bmp",0.9,intX,intY
+	FindPic 565+dx,80,834+dx,197,"C:\Users\Lee\Desktop\QMC\longOffline.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		Delay 3000
 		MoveTo 411+dx, 894
@@ -186,7 +186,7 @@ Function isLongOffline
 End Function
 
 Function isInShop
-	FindPic 640+dx,57,694+dx,108,"C:\Users\Lee\Desktop\«öÁäºëÆF\isInShop.bmp",0.9,intX,intY
+	FindPic 640+dx,57,694+dx,108,"C:\Users\Lee\Desktop\QMC\isInShop.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		isInShop = true
 	Else 
@@ -203,7 +203,7 @@ Function speedUpAvailable
 End Function
 
 Function isAtDesktop
-	FindPic 621+dx,302,688+dx,362,"C:\Users\Lee\Desktop\«öÁäºëÆF\atDesktop.bmp",0.9,intX,intY
+	FindPic 621+dx,302,688+dx,362,"C:\Users\Lee\Desktop\QMC\atDesktop.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		isAtDesktop = true
 	Else 
@@ -221,7 +221,7 @@ Function turnOnAutoBattle
 	LeftClick 1
 	Delay 1000
 
-	FindPic 1334+dx,542,1413+dx,614,"C:\Users\Lee\Desktop\«öÁäºëÆF\autoBattleOn.bmp",0.9,intX,intY
+	FindPic 1334+dx,542,1413+dx,614,"C:\Users\Lee\Desktop\QMC\autoBattleOn.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 	Else 
 		MoveTo 1222+dx, 590
@@ -242,7 +242,7 @@ Function ragePowerReady
 End Function
 
 Function isGameToBeClosed
-	FindPic 1224+dx,215,1309+dx,296,"C:\Users\Lee\Desktop\«öÁäºëÆF\windowsTobeClosed.bmp",0.9,intX,intY
+	FindPic 1224+dx,215,1309+dx,296,"C:\Users\Lee\Desktop\QMC\windowsTobeClosed.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		isGameToBeClosed = true
 	Else 
@@ -271,7 +271,7 @@ Function closeGame
 End Function
 
 Function isDisconnected
-	FindPic 823+dx,638,1054+dx,770,"C:\Users\Lee\Desktop\«öÁäºëÆF\disconnected.bmp",0.9,intX,intY
+	FindPic 823+dx,638,1054+dx,770,"C:\Users\Lee\Desktop\QMC\disconnected.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		disconnectedCnt = disconnectedCnt + 1
 		TracePrint "disconnected! totally " & disconnectedCnt & " times @ " & Plugin.GetSysInfo.GetDateTime
@@ -313,7 +313,7 @@ Function gameReconnected
 End Function
 
 Function closeEventWindow
-	FindPic 860+dx,74,1023+dx,179,"C:\Users\Lee\Desktop\«öÁäºëÆF\eventWindow.bmp",0.9,intX,intY
+	FindPic 860+dx,74,1023+dx,179,"C:\Users\Lee\Desktop\QMC\eventWindow.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		Delay 1000
 		MoveTo 1691+dx, 166
@@ -326,7 +326,7 @@ Function closeEventWindow
 End Function
 
 Function isNoAds
-	FindPic 627+dx,406,881+dx,618,"C:\Users\Lee\Desktop\«öÁäºëÆF\noAds.bmp",0.9,intX,intY
+	FindPic 627+dx,406,881+dx,618,"C:\Users\Lee\Desktop\QMC\noAds.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		// close no ads window
 		KeyPress "S", 1
@@ -337,8 +337,8 @@ Function isNoAds
 End Function
 
 Function isGoldFever
-	feverPic1 = "C:\Users\Lee\Desktop\«öÁäºëÆF\goldFeverLet.bmp"
-	feverPic2 = "C:\Users\Lee\Desktop\«öÁäºëÆF\goldFeverLet2.bmp"
+	feverPic1 = "C:\Users\Lee\Desktop\QMC\goldFeverLet.bmp"
+	feverPic2 = "C:\Users\Lee\Desktop\QMC\goldFeverLet2.bmp"
 	feverNotFound = false
 	FindPic 799+dx,462,1137+dx,610,feverPic1,0.7,intX,intY
 	FindPic 799+dx,462,1137+dx,610,feverPic2,0.8,intX2,intY2
@@ -375,7 +375,7 @@ Function isGoldFever
 End Function
 
 Function isInRebornWindow
-	FindPic 1189+dx,29,1314+dx,197,"C:\Users\Lee\Desktop\«öÁäºëÆF\rebornWindow.bmp",0.9,intX,intY
+	FindPic 1189+dx,29,1314+dx,197,"C:\Users\Lee\Desktop\QMC\rebornWindow.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		isInRebornWindow = true
 	Else 
@@ -384,7 +384,7 @@ Function isInRebornWindow
 End Function
 
 Function clickConfirmReborn
-	FindPic 54+dx,32,1831+dx,1036,"C:\Users\Lee\Desktop\«öÁäºëÆF\confirmReborn.bmp",0.6,intX,intY
+	FindPic 54+dx,32,1831+dx,1036,"C:\Users\Lee\Desktop\QMC\confirmReborn.bmp",0.6,intX,intY
 	If intX > 0 And intY > 0 Then 
 		MoveTo intX, intY + 383
 		LeftClick 1
@@ -395,7 +395,7 @@ Function clickConfirmReborn
 End Function
 
 Function isReborned
-	FindPic 994+dx,798,1139+dx,931,"C:\Users\Lee\Desktop\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½F\reborned.bmp",0.9,intX,intY
+	FindPic 994+dx,798,1139+dx,931,"C:\Users\Lee\Desktop\QMC\reborned.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 		MoveTo 958+dx, 861
 		LeftClick 1
@@ -415,7 +415,7 @@ Function isOverLimitAndReborn
 		Wend
 		
 		// check if it's still able to make appointment for reborn (means limit is not reached, yet)
-		FindPic 356+dx,789,460+dx,918,"C:\Users\Lee\Desktop\«öÁäºëÆF\canMakeRebornAppointment.bmp",0.9,intX,intY
+		FindPic 356+dx,789,460+dx,918,"C:\Users\Lee\Desktop\QMC\canMakeRebornAppointment.bmp",0.9,intX,intY
 		If intX > 0 And intY > 0 Then 
 			KeyPress "Esc", 1 // close window
 			isOverLimitAndReborn = false
