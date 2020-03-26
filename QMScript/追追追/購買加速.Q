@@ -116,23 +116,25 @@ While isInShop() = true
 Wend
 
 Rem setAutoReborn
-If isOverLimitAndReborn() = true Then
-	// reborned, upgrading characters for 5 minutes
-	Delay 10000
-	For 5
-		KeyDown "T", 1
-		KeyDown "R", 1
-		KeyDown "E", 1
-		KeyDown "W", 1
-		Delay 1000 * 60
-		KeyUp "W", 1
-		KeyUp "E", 1
-		KeyUp "R", 1
-		KeyUp "T", 1
-	Next
-	KeyDown "Q", 1
-	Delay 30000
-	KeyUp "Q", 1
+If needSetAutoReborn = 1 Then 
+	If isOverLimitAndReborn() = true Then
+		// reborned, upgrading characters for 5 minutes
+		Delay 10000
+		For 5
+			KeyDown "T", 1
+			KeyDown "R", 1
+			KeyDown "E", 1
+			KeyDown "W", 1
+			Delay 1000 * 60
+			KeyUp "W", 1
+			KeyUp "E", 1
+			KeyUp "R", 1
+			KeyUp "T", 1
+		Next
+		KeyDown "Q", 1
+		Delay 30000
+		KeyUp "Q", 1
+	End If
 End If
 
 Rem waitForNextRunOfChecking
