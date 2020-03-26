@@ -224,7 +224,7 @@ Function turnOnAutoBattle
 	LeftClick 1
 	Delay 1000
 
-	FindPic 1334+dx,542,1413+dx,614,"C:\Users\Lee\Desktop\QMC\autoBattleOn.bmp",0.9,intX,intY
+	FindPic 1328+dx,577,1415+dx,662,"C:\Users\Lee\Desktop\QMC\autoBattleOn.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
 	Else 
 		MoveTo 1222+dx, 590
