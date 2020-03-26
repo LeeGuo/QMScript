@@ -120,7 +120,7 @@ Rem setAutoReborn
 If needSetAutoReborn = 1 Then 
 	If isOverLimitAndReborn() = true Then
 		// reborned, upgrading characters for 5 minutes
-		Delay 10000
+		Delay 1000
 		For 5
 			KeyDown "T", 1
 			KeyDown "R", 1
@@ -434,6 +434,8 @@ Function isOverLimitAndReborn
 			While clickConfirmReborn() = false
 				Delay 1000
 			Wend
+			
+			Delay 10000
 			
 			While isReborned() = false
 				Delay 1000
