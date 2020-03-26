@@ -26,6 +26,7 @@ SetupOCXFile=
 UserVar interval=0 "checking interval seconds"
 UserVar needSetAutoReborn=DropList{"no":0|"yes":1}=0 "自動重生"
 UserVar clickRagePower=DropList{"no":0|"yes":1}=0 "點無雙"
+UserVar clickAds=DropList{"no":0|"yes":1}=0 "點廣告"
 Dim feverCnt, disconnectedCnt
 
 feverCnt = 0
@@ -47,6 +48,9 @@ LeftClick 1
 Dim failCnt
 
 Rem waiShopAvailable
+If clickAds = 0 Then // skip clicking ads
+	Goto setAutoReborn
+End If
 If shopAvailable() = false Then 
 	Delay 2000
 	Call isLongOffline()
