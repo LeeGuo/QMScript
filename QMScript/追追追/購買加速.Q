@@ -82,6 +82,7 @@ Else
 End If
 
 Rem outAndIn
+Delay 40000
 // TODO: check no Ads cases with isShopBlackedOut()
 failCnt = -1
 While isInShop() = false
