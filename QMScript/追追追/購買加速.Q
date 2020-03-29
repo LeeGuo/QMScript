@@ -27,10 +27,11 @@ UserVar interval=0 "checking interval seconds"
 UserVar needSetAutoReborn=DropList{"no":0|"yes":1}=0 "自動重生"
 UserVar clickRagePower=DropList{"no":0|"yes":1}=0 "點無雙"
 UserVar clickAds=DropList{"no":0|"yes":1}=0 "點廣告"
-Dim feverCnt, disconnectedCnt
+Dim feverCnt, disconnectedCnt, noAdsRestartCnt
 
 feverCnt = 0
 disconnectedCnt = 0
+noAdsRestartCnt = 0
 
 dx = 0
 If shopAvailable() = false Then 
@@ -81,13 +82,28 @@ Else
 		While isInShop() = false
 			Delay 1000
 		Wend
-		Goto leavingShop
+		
+		If noAdsRestartCnt < 3 Then 
+			noAdsRestartCnt = noAdsRestartCnt + 1
+			TracePrint "no Ads, restart @ " & Plugin.GetSysInfo.GetDateTime
+
+			// restart game and skip this round of buying speedup
+			Call restartGame()
+			While gameReconnected() = false
+				Delay 3000
+			Wend
+			Goto setAutoReborn
+		Else 
+			TracePrint "no Ads exceeds 3 times in a row, ignore it @ " & Plugin.GetSysInfo.GetDateTime
+			Goto leavingShop
+		End If
+	Else 
+		noAdsRestartCnt = 0
 	End If
 End If
 
 Rem outAndIn
-Delay 40000
-// TODO: check no Ads cases with isShopBlackedOut()
+Delay 40000 // watching Ads
 failCnt = -1
 While isInShop() = false
 	// in-n-out 5 times, means game crashed
@@ -375,7 +391,7 @@ Function isGoldFever
 		Wend
 		If clickCnt > 0 Then 
 			feverCnt = feverCnt + 1
-			TracePrint feverPic & "! totally " & feverCnt & " times @ " & Plugin.GetSysInfo.GetDateTime
+			// TracePrint feverPic & "! totally " & feverCnt & " times @ " & Plugin.GetSysInfo.GetDateTime
 		End If
 		isGoldFever = true
 	End If
@@ -406,6 +422,7 @@ Function isReborned
 	If intX > 0 And intY > 0 Then 
 		MoveTo 958+dx, 861
 		LeftClick 1
+		TracePrint "Reborned! @ " & Plugin.GetSysInfo.GetDateTime
 		isReborned = true
 	Else 
 		isReborned = false
