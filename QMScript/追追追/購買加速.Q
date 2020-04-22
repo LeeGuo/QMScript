@@ -8,7 +8,7 @@ StopHotkey=123
 StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
-MacroID=2b990b36-b99c-4b73-a19b-2dac9ccc67fc
+MacroID=62346a2e-db0a-40f8-b079-cd2bc604f20f
 Description=購買加速
 Enable=1
 AutoRun=0
@@ -27,11 +27,12 @@ UserVar interval=0 "checking interval seconds"
 UserVar needSetAutoReborn=DropList{"no":0|"yes":1}=0 "自動重生"
 UserVar clickRagePower=DropList{"no":0|"yes":1}=0 "點無雙"
 UserVar clickAds=DropList{"no":0|"yes":1}=0 "點廣告"
-Dim feverCnt, disconnectedCnt, noAdsRestartCnt
+Dim feverCnt, disconnectedCnt, noAdsRestartCnt, noShopCnt
 
 feverCnt = 0
 disconnectedCnt = 0
 noAdsRestartCnt = 0
+noShopCnt = 0
 
 dx = 0
 If shopAvailable() = false Then 
@@ -49,17 +50,24 @@ LeftClick 1
 Dim failCnt
 
 Rem waiShopAvailable
-If clickAds = 0 Then // skip clicking ads
-	Goto setAutoReborn
-End If
-If shopAvailable() = false Then 
+noShopCnt = 0
+While shopAvailable() = false
+	noShopCnt = noShopCnt + 1
+	If noShopCnt > 30 Then 
+		Call restartGame()
+		TracePrint "No shop over 1 min, restart game @ " & Plugin.GetSysInfo.GetDateTime
+		Goto waiShopAvailable
+	End If
+
 	Delay 2000
 	Call isLongOffline()
 	Call closeEventWindow()
-	Goto waiShopAvailable
-End If
+Wend
 
 Rem inShop
+If clickAds = 0 Then // skip clicking ads
+	Goto setAutoReborn
+End If
 While shopAvailable() = true
 	KeyPress "Tab", 1
 	Delay 2000
@@ -89,9 +97,6 @@ Else
 
 			// restart game and skip this round of buying speedup
 			Call restartGame()
-			While gameReconnected() = false
-				Delay 3000
-			Wend
 			Goto setAutoReborn
 		Else 
 			TracePrint "no Ads exceeds 3 times in a row, ignore it @ " & Plugin.GetSysInfo.GetDateTime
@@ -103,7 +108,7 @@ Else
 End If
 
 Rem outAndIn
-Delay 40000 // watching Ads
+Delay 48000 // watching Ads
 failCnt = -1
 While isInShop() = false
 	// in-n-out 5 times, means game crashed
@@ -115,7 +120,8 @@ While isInShop() = false
 	End If
 	
 	While isAtDesktop() = false
-		KeyPress "Home", 1
+		MoveTo 1903+dx, 985
+		LeftClick 1
 		Delay 3000
 	Wend
 	
@@ -175,11 +181,6 @@ For interval
 	
 	If isDisconnected() = true Then 
 		Call restartGame()
-		
-		// wait game to be reconnected
-		While gameReconnected() = false
-			Delay 3000
-		Wend
 	End If
 Next
 Goto waiShopAvailable
@@ -239,10 +240,21 @@ Sub clickGameIcon
 	LeftClick 1
 End Sub
 
+Function isInSettingDialog
+	FindPic 797+dx,55,931+dx,182,"C:\Users\Lee\Desktop\QMC\settingDialog.bmp",0.9,intX,intY
+	If intX > 0 And intY > 0 Then 
+		isInSettingDialog = true
+	Else 
+		isInSettingDialog = false
+	End If
+End Function
+
 Function turnOnAutoBattle
-	MoveTo 1778+dx, 159
-	LeftClick 1
-	Delay 1000
+	While isInSettingDialog() = false
+		MoveTo 1778+dx, 159
+		LeftClick 1
+		Delay 2000
+	Wend
 
 	FindPic 1328+dx,577,1415+dx,662,"C:\Users\Lee\Desktop\QMC\autoBattleOn.bmp",0.9,intX,intY
 	If intX > 0 And intY > 0 Then 
@@ -252,8 +264,11 @@ Function turnOnAutoBattle
 	End If
 	
 	// exit setting window
-	KeyPress "Esc", 1
-	Delay 2000
+	While isInSettingDialog() = true
+		MoveTo 1418+dx, 112
+		LeftClick 1
+		Delay 2000
+	Wend
 End Function
 
 Function ragePowerReady
@@ -286,11 +301,12 @@ Function closeGame
 	Wend
 	
 	Delay 5000
-	If isAtDesktop() = false Then 
-		closeGame = false
-	Else 
-		closeGame = true
-	End If
+	While isAtDesktop() = false
+		MoveTo 1903+dx, 985
+		LeftClick 1
+		Delay 3000
+	Wend
+	closeGame = true
 End Function
 
 Function isDisconnected
@@ -309,6 +325,10 @@ Function restartGame
 	
 	While isAtDesktop() = true
 		Call clickGameIcon()
+		Delay 3000
+	Wend
+	
+	While gameReconnected() = false
 		Delay 3000
 	Wend
 End Function
