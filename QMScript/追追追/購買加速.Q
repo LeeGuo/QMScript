@@ -25,6 +25,7 @@ SetupOCXFile=
 [Script]
 UserVar interval=0 "checking interval seconds"
 UserVar needSetAutoReborn=DropList{"no":0|"yes":1}=0 "自動重生"
+UserVar doubleReborn=DropList{"no":0|"yes":1}=0 "兩倍重生"
 UserVar clickRagePower=DropList{"no":0|"yes":1}=0 "點無雙"
 UserVar clickAds=DropList{"no":0|"yes":1}=0 "點廣告"
 Dim feverCnt, disconnectedCnt, noAdsRestartCnt, noShopCnt
@@ -33,6 +34,7 @@ feverCnt = 0
 disconnectedCnt = 0
 noAdsRestartCnt = 0
 noShopCnt = 0
+openRebornFailCnt = 0
 
 dx = 0
 If shopAvailable() = false Then 
@@ -146,21 +148,23 @@ Rem setAutoReborn
 If needSetAutoReborn = 1 Then 
 	If isOverLimitAndReborn() = true Then
 		// reborned, upgrading characters for 5 minutes
-		Delay 1000
-		For 5
+		/* Delay 1000
+		For 10
 			KeyDown "T", 1
+			Delay 1000 * 60
+			KeyUp "T", 1
+		Next
+		For 2
 			KeyDown "R", 1
 			KeyDown "E", 1
 			KeyDown "W", 1
-			Delay 1000 * 60
+			KeyDown "Q", 1
+			Delay 30000
 			KeyUp "W", 1
 			KeyUp "E", 1
 			KeyUp "R", 1
-			KeyUp "T", 1
-		Next
-		KeyDown "Q", 1
-		Delay 30000
-		KeyUp "Q", 1
+			KeyUp "Q", 1
+		Next */
 	End If
 End If
 
@@ -452,10 +456,17 @@ End Function
 Function isOverLimitAndReborn
 	IfColor 282+dx,925,"ECCDB5",0 Then
 		// open reborn window
+		openRebornFailCnt = 0
 		While isInRebornWindow() = false
-			MoveTo 306+dx, 954
-			LeftClick 1
-			Delay 1000
+			openRebornFailCnt = openRebornFailCnt + 1
+			If openRebornFailCnt > 30 Then 
+				Call restartGame()
+				TracePrint "No reborn over 1 min, restart game @ " & Plugin.GetSysInfo.GetDateTime
+				Goto waiShopAvailable
+			End If
+			
+			KeyPress "A", 1
+			Delay 2000
 		Wend
 		
 		// check if it's still able to make appointment for reborn (means limit is not reached, yet)
@@ -465,19 +476,25 @@ Function isOverLimitAndReborn
 			isOverLimitAndReborn = false
 		Else
 			While isInRebornWindow() = true
-				//MoveTo 964+dx, 846 // normal reborn
-				MoveTo 1370+dx, 847 // double reborn
+				If doubleReborn = 0 Then 
+					MoveTo 964+dx, 846 // normal reborn
+				Else 
+					MoveTo 1370+dx, 847 // double reborn
+				End If
 				LeftClick 1
 				Delay 1000
 			Wend
 
-			// Reborn!
-			While clickConfirmReborn() = false
-				Delay 1000
-			Wend
+			// Confirm required if it's double reborn
+			If doubleReborn = 1 Then 
+				While clickConfirmReborn() = false
+					Delay 1000
+				Wend
+			End If
 			
 			Delay 10000
 			
+			// Reborn!
 			While isReborned() = false
 				Delay 1000
 			Wend
