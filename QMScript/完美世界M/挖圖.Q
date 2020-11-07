@@ -52,25 +52,25 @@ numPic(9) = Array("num9.bmp") // done
 
 // ======================== variables above ===========================
 
-Call getFreeNums
+Call checkFreeNums
 
 // ======================== functions below ===========================
 
-Sub getFreeNums
+Sub checkFreeNums
 	For i = 1 To UBound(freeNums)
-		freeNums(i) = getPositionNum(i)
+		freeNums(i) = checkPositionNum(i)
 	Next
 	TracePrint Join(freeNums)
 End Sub
 
-Function getPositionNum(position)
+Function checkPositionNum(position)
 	For j = 1 To 9
 		If checkNum(startX + (position * spaceX), startY, j, 0.9) Then 
-			getPositionNum = j
+			checkPositionNum = j
 			Exit Function
 		End If
 	Next
-	getPositionNum = 0
+	checkPositionNum = 0
 End Function
 
 Function checkNum(thisx, thisy, targetNum, accuracy)
