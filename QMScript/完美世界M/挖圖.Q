@@ -27,19 +27,19 @@ UserVar screenNo=DropList{"left":0|"right":1}=0 "Screen"
 
 
 Dim startX, startY, spaceX
-startX = 863 + screenNo * 1920 //left: 863, right: 2783
-startY = 294
 spaceX = 143
+// left: 863, right: 2783
+startX = 863 + screenNo * 1920 - spaceX // -spaceX is for position to be 1-based
+startY = 294
 
-Dim freeNums, maxFreeNum, lv1Nums, lv2Nums, lv3Nums
-maxFreeNum = 6
-freeNums = Array("empty", "empty", "empty", "empty", "empty", "empty")
-lv1Nums = Array(- 1 , - 1 , - 1 )
-lv1Nums = Array(- 1 , - 1 , - 1 )
-lv1Nums = Array(- 1 , - 1 , - 1 )
+Dim freeNums, lv1Nums, lv2Nums, lv3Nums
+freeNums = Array("to-1-based", "empty", "empty", "empty", "empty", "empty", "empty")
+lv1Nums = Array("to-1-based", 0, 0, 0)
+lv2Nums = Array("to-1-based", 0, 0, 0)
+lv3Nums = Array("to-1-based", 0, 0, 0)
 
 Dim numPic
-numPic = Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+numPic = Array("to-1-based", 0, 0, 0, 0, 0, 0, 0, 0, 0)
 numPic(1) = Array("num1.bmp") // done
 numPic(2) = Array("num2.bmp", "num22.bmp") // done
 numPic(3) = Array("num3.bmp", "num32.bmp") // done
@@ -50,20 +50,28 @@ numPic(7) = Array("num7.bmp", "num72.bmp") // done
 numPic(8) = Array("num8.bmp") // done
 numPic(9) = Array("num9.bmp") // done
 
+// ======================== variables above ===========================
+
 Call getFreeNums
 
+// ======================== functions below ===========================
+
 Sub getFreeNums
-	For i = 0 To (maxFreeNum - 1)
-		freeNums(i) = 0 // initiation
-		For j = 1 To 9
-			If checkNum(startX + (i * spaceX), startY, j, 0.9) Then 
-				freeNums(i) = j
-				Exit For
-			End If
-		Next
+	For i = 1 To UBound(freeNums)
+		freeNums(i) = getPositionNum(i)
 	Next
 	TracePrint Join(freeNums)
 End Sub
+
+Function getPositionNum(position)
+	For j = 1 To 9
+		If checkNum(startX + (position * spaceX), startY, j, 0.9) Then 
+			getPositionNum = j
+			Exit Function
+		End If
+	Next
+	getPositionNum = 0
+End Function
 
 Function checkNum(thisx, thisy, targetNum, accuracy)
 	found = false
